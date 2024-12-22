@@ -1,0 +1,30 @@
+/*
+	Also available Vuetify variables:
+	--v-theme-background,
+	--v-theme-unfocused,
+	--v-theme-surface,
+	--v-theme-border,
+	--v-theme-text,
+	--v-theme-text-reverse,
+	--v-theme-primary,
+	--v-theme-primary-darken-1,
+	--v-theme-secondary,
+	--v-theme-secondary-darken-1,
+	--v-theme-error,
+	--v-theme-info,
+	--v-theme-success,
+	--v-theme-warning
+
+	The colors defined in the src/core/scripts/themes.ts file
+	Use them for maximazing native look
+*/
+
+:root {
+	--base-radius: 8px;
+	--windowbar-height: 48px;
+	--workspace-inner-padding: 20px;
+	--app-height: calc(100vh - var(--windowbar-height));
+	--font-size-main: 14px;
+	--font-size-small: 14px;
+	--v-input-control-height: 32px !important;
+}

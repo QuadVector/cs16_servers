@@ -1,0 +1,144 @@
+.menu-wrapper {
+	align-items: flex-start;
+	display: flex;
+	justify-content: center;
+	padding: 0.5rem 0;
+}
+
+.menu-items {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: flex-start;
+	list-style: none;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.menu-item {
+	gap: 20px;
+	align-items: center;
+	color: var(--fore-color);
+	display: flex;
+	font-size: 0.9rem;
+	justify-content: flex-start;
+	position: relative;
+	width: 100%;
+	white-space: nowrap;
+}
+
+.menu-item:not(.divider) {
+	padding: 4.5px 30px;
+	padding-right: 10px;
+}
+
+.menu-item:hover:not(.divider) {
+	cursor: pointer;
+	background: var(--background-color-hover);
+	color: var(--text-hover-color);
+}
+
+.menu-item.highlight:not(.divider) {
+	background: var(--background-color-hover);
+	color: var(--text-hover-color);
+}
+
+.menu-item span.name {
+	flex-grow: 1;
+}
+
+.menu-item.right .name {
+	order: 2;
+	padding-right: 5%;
+	text-align: right;
+}
+
+.menu-item.disable {
+	filter: opacity(0.5);
+}
+
+.sub-menu-wrapper {
+	position: absolute;
+	top: 0;
+}
+
+.sub-menu-wrapper:not(.right) {
+	left: 100%;
+}
+
+.sub-menu-wrapper.right {
+	right: 100%;
+}
+
+.sub-menu-wrapper.bottom {
+	transform: translateY(-65%);
+}
+
+.menu-item-divider {
+	background: rgba(0, 0, 0, 0.1);
+	display: block;
+	height: 1px;
+	margin: 0 auto;
+	margin-bottom: 6px;
+	margin-top: 6px;
+	width: 90%;
+}
+
+.menu-item span.shortcut {
+	font-size: 12px;
+	opacity: 0.5;
+}
+
+.menu-item-icon {
+	width: 14px;
+	height: 14px;
+	font-size: 16px;
+	display: block;
+	fill: var(--fore-color);
+	color: var(--fore-color);
+	position: absolute;
+	bottom: 0px;
+	top: -11px;
+	left: 5px;
+	margin: auto auto;
+}
+
+.menu-item-icon:has(svg) {
+	left: 7px;
+}
+
+
+.menu-item-icon * {
+	width: 14px !important;
+	height: 14px !important;
+	object-fit: contain;
+}
+
+.menu-item-arrow {
+	width: 16px;
+	height: 16px;
+	max-width: 16px;
+	flex: 16px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	top: 1px;
+}
+
+.menu-item span.menu-item-arrow {
+	visibility: hidden;
+}
+
+.menu-item span.menu-item-arrow.visible {
+	visibility: visible;
+}
+
+.menu-item-arrow svg {
+	width: 16px;
+	height: 16px;
+	object-fit: contain;
+}

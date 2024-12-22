@@ -1,0 +1,83 @@
+.no-animation {
+	transition: none !important;
+}
+
+.text-selectable {
+	user-select: all;
+}
+
+.w-full {
+	width: 100%;
+}
+
+.h-full {
+	height: 100%;
+}
+
+.workspace-content {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
+.content-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.vertical-scroll {
+	overflow-y: auto !important;
+	overflow-x: hidden !important;
+}
+
+.horizontal-scroll {
+	overflow-x: scroll !important;
+	overflow-y: hidden !important;
+}
+
+.workspace-content.vertical-scroll {
+	overflow-y: auto !important;
+}
+
+.workspace-content.horizontal-scroll {
+	overflow-x: scroll !important;
+}
+
+body:has(.v-overlay--active.v-dialog) .workspace-content.vertical-scroll::-webkit-scrollbar-thumb {
+	display: none;
+}
+
+.workspace-content.inner-padding {
+	padding: var(--workspace-inner-padding);
+}
+
+.workspace-content.inner-padding-vertical {
+	padding: var(--workspace-inner-padding) 0px;
+}
+
+.workspace-content.inner-padding-horizontal {
+	padding: 0px var(--workspace-inner-padding);
+}
+
+.workspace-content.inner-padding-top {
+	padding-top: var(--workspace-inner-padding);
+}
+
+.workspace-content.inner-padding-bottom {
+	padding-bottom: var(--workspace-inner-padding);
+}
+
+.workspace-content.inner-padding-left {
+	padding-left: var(--workspace-inner-padding);
+}
+
+.workspace-content.inner-padding-right {
+	padding-right: var(--workspace-inner-padding);
+}
+
+.workspace-content>.v-container {
+	padding: 0px;
+	max-width: 100%;
+}

@@ -1,0 +1,118 @@
+body.loading, body.loading * {
+	transition: none !important;
+	animation: none !important;
+}
+
+.v-main {
+	padding-top: 0px;
+}
+
+.v-application {
+	background: none !important;
+}
+
+.app__content {
+	word-wrap: break-word;
+	height: var(--app-height);
+}
+
+.app__workspace {
+	height: 100%;
+}
+
+.app__workspace.background {
+	background: rgb(var(--v-theme-surface));
+	border-top: 1px solid rgb(var(--v-theme-border));
+	border-left: 1px solid rgb(var(--v-theme-border));
+	border-top-left-radius: var(--base-radius);
+}
+
+.app__workspace.background .workspace-content {
+	padding-top: var(--workspace-inner-padding);
+}
+
+.workspace-content {
+	position: relative;
+}
+
+.workspace-content .workspace__title {
+	background: rgba(var(--v-theme-unfocused), 1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 25px;
+	position: sticky;
+	width: 100%;
+	z-index: 10;
+	top: 0px;
+	margin-bottom: 20px;
+	border-radius: var(--base-radius);
+	border: 1px solid rgb(var(--v-theme-border));
+	transition: background 0.2s ease-in-out;
+	color: rgb(var(--v-theme-text));
+}
+
+body.unfocused .workspace-content .workspace__title {
+	background: rgba(var(--v-theme-surface), 1);
+}
+
+.workspace-content .workspace__title__text {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#app .scale-slide-enter-active,
+#app .scale-slide-leave-active {
+	position: absolute;
+	width: 100%;
+	transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+	height: calc(100% - var(--windowbar-height));
+}
+
+#app:has(.app__content > .v-navigation-drawer:not(.v-navigation-drawer--rail)) .scale-slide-enter-active,
+#app:has(.app__content > .v-navigation-drawer:not(.v-navigation-drawer--rail)) .scale-slide-leave-active {
+	width: calc(100% - 256px);
+	height: calc(100% - var(--windowbar-height));
+}
+
+#app:has(.app__content > .v-navigation-drawer.v-navigation-drawer--rail) .scale-slide-enter-active,
+#app:has(.app__content > .v-navigation-drawer.v-navigation-drawer--rail) .scale-slide-leave-active {
+	width: calc(100% - 51px);
+	height: calc(100% - var(--windowbar-height));
+}
+
+.scale-slide-enter-from {
+	opacity: 0;
+	transform: translateY(200px);
+}
+
+.scale-slide-enter-to {
+	opacity: 1;
+	transform: translateY(0px);
+}
+
+.scale-slide-leave-to {
+	opacity: 0;
+}
+
+.v-navigation-drawer.v-navigation-drawer--rail {
+	max-width: 51px;
+}
+
+#app:has(.app__content > .v-navigation-drawer.v-navigation-drawer--rail) .v-main {
+	--v-layout-left: 51px !important;
+}
+
+@media screen and (max-width: 799px) {
+
+	.scale-slide-enter-active,
+	.scale-slide-leave-active {
+		position: absolute;
+		width: calc(100%) !important;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.app__workspace.background {
+		border-top-left-radius: 0px;
+	}
+}

@@ -1,0 +1,22 @@
+/* default background */
+body {
+	background: rgb(var(--v-theme-background)) !important;
+}
+
+body.unfocused {
+	background: rgb(var(--v-theme-unfocused)) !important;
+}
+
+body.fullscreen {
+	transition: none;
+	background: rgb(var(--v-theme-background));
+}
+
+body.unfocused .bg-adaptive {
+	background: rgb(var(--v-theme-unfocused)) !important;
+}
+
+body .bg-adaptive {
+	background: rgb(var(--v-theme-background)) !important;
+	transition: all 0.3s ease-in-out;
+}
