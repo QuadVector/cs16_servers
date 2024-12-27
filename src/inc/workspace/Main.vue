@@ -52,6 +52,10 @@
 	margin-top: 10px;
 }
 
+.servers-table:deep() .ag-root-wrapper {
+	border-radius: var(--base-radius);
+}
+
 .status-bar {
 	height: 30px;
 	width: 100%;
@@ -88,15 +92,14 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 import {
 	themeBalham,
-	colorSchemeDark,
-	iconSetMaterial,
+	colorSchemeDark
 } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const game_type = "cstrike";
-const initConcurrency = 250;
+const initConcurrency = 200;
 var parseQueue, ipsQueue, serversQueue;
 
 export default {
@@ -145,7 +148,6 @@ export default {
 
 			//ag-grid
 			serversTheme: themeBalham
-				.withPart(iconSetMaterial)
 				.withPart(colorSchemeDark),
 			defaultColDef: {
 				sortable: true,
@@ -189,6 +191,7 @@ export default {
 					lockPosition: 'left',
 					minWidth: 150,
 					width: 300,
+					filter: 'agTextColumnFilter',
 				},
 				{
 					field: "address",
@@ -196,6 +199,7 @@ export default {
 					lockPosition: 'left',
 					minWidth: 150,
 					flex: 1,
+					filter: 'agTextColumnFilter',
 				},
 				{
 					field: "country_name",
@@ -209,7 +213,8 @@ export default {
 						} else {
 							return "Unknown";
 						}
-					}
+					},
+					filter: 'agTextColumnFilter',
 				},
 				{
 					field: "game",
@@ -218,6 +223,7 @@ export default {
 					minWidth: 150,
 					width: 250,
 					flex: 1,
+					filter: 'agTextColumnFilter',
 				},
 				{
 					headerName: "Players",
@@ -241,6 +247,7 @@ export default {
 					lockPosition: 'left',
 					minWidth: 150,
 					flex: 1,
+					filter: 'agTextColumnFilter',
 				},
 				{
 					field: "ping",

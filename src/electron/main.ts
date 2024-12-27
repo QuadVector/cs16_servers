@@ -48,7 +48,7 @@ async function createWindow() {
 		webPreferences: {
 			nodeIntegration: false, // Отключаем для безопасности
 			contextIsolation: true,  // Включаем contextIsolation
-			devTools: true,
+			devTools: false,
 			webSecurity: true,
 			preload: join(__dirname, "preload.js"), // Указываем путь к preload
 		},
