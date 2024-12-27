@@ -29,9 +29,13 @@ contextBridge.exposeInMainWorld("application", {
 		});
 	},
 
-	getIPGeolocation(ip: string): any {
+	getIPGeolocation(ip: string): Promise<any> {
+		return ipcRenderer.invoke("get-ip-geolocation", ip);
+	},
+
+	getCS16MasterServerIPs(ip: string): Promise<Array<string>> {
 		return new Promise((resolve) => {
-			ipcRenderer.invoke("get-ip-geolocation", ip).then((data) => {
+			ipcRenderer.invoke("get-cs16-master-server-ips", ip).then((data) => {
 				resolve(data);
 			});
 		});

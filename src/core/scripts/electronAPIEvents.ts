@@ -1,4 +1,7 @@
 import { ipcMain, dialog, BrowserWindow, SaveDialogReturnValue, OpenDialogReturnValue } from "electron";
+import { exec } from 'child_process';
+import os from 'os';
+import iconv from 'iconv-lite';
 const fs = require("fs");
 
 export function initElectronAPIEvents(app: Electron.App, win: BrowserWindow) {
@@ -64,12 +67,29 @@ export function initElectronAPIEvents(app: Electron.App, win: BrowserWindow) {
 		return dialog.showOpenDialog(win, totalOptions);
 	});
 
-	ipcMain.handle("open-file-data", async (event, filePath: string): Promise<any> => {
+	ipcMain.handle("open-file-data", (event, filePath: string): Promise<any> => {
 		try {
-			const data = await fs.promises.readFile(filePath, "utf-8");
-			return data;
+			return fs.promises.readFile(filePath, "utf-8");
 		} catch (error) {
 			throw error;
 		}
+	});
+
+	ipcMain.handle("get-current-wallpaper", (): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			if (os.platform() === 'win32') {
+				const command = 'powershell -Command "Get-ItemPropertyValue -Path \'HKCU:\\Control Panel\\Desktop\' -Name Wallpaper"';
+				exec(command, { encoding: 'buffer' }, (err, stdout, stderr) => {
+					if (err) {
+						resolve("");
+					}
+
+					const decodedStdout = iconv.decode(stdout, 'cp866').replace(/\\/g, '/');
+					resolve(decodedStdout.trim());
+				});
+			} else {
+				resolve("");
+			}
+		});
 	});
 }

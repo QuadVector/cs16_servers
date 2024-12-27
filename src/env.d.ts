@@ -32,10 +32,10 @@ interface Window {
 
   electronAPI: {
     closeApplication: () => void;
-    getVersions: () => Promise<string[]>;
-    setCurrentThemeMode: (mode: string) => void;
+    getVersions: () => Promise<{ electronVersion: string; chromiumVersion: string; nodejsVersion: string; v8Version: string; osInfo: string }>;
+    setCurrentThemeMode: (mode?: string) => void;
     showSaveFileDialog: (options: object) => Promise<SaveDialogReturnValue>;
-    saveFileData: (filePath: string, data: string) => Promise<boolean>;
+    saveFileData: (filePath: string, data: string) => Promise<void>;
     showOpenFileDialog: (options: object) => Promise<OpenDialogReturnValue>;
     openFileData: (filePath: string) => Promise<any>;
     toggleFullScreen: () => void;
@@ -46,5 +46,9 @@ interface Window {
 
   //your custom application methods
   application: {
+    parseIPList: (url: string) => Promise<Array<string>>;
+    parsePaginationLinks: (url: string) => Promise<Array<string>>;
+    getCS16ServerInfo(ip: string): any;
+    getIPGeolocation(ip: string): any;
   }
 }
