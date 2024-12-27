@@ -43,7 +43,7 @@
 
 .v-navigation-drawer .v-list {
 	padding: 0px 0px;
-	padding-left: 4px;
+	padding-left: var(--workspace-inner-padding);
 	padding-right: 4px;
 	display: flex;
 	flex-direction: column;
@@ -169,6 +169,8 @@
 .component__WindowBar-menu .menu-item-icon svg {
 	transition: 0.1s;
 	fill: rgba(var(--v-theme-text), 1);
+	position: relative;
+	top: 2px;
 }
 
 .component__WindowBar-menu .menu-item {
@@ -389,13 +391,13 @@ html:has(.v-application.v-theme--DarkMode) .v-contextmenu-divider {
 .component__WindowBar .v-toolbar__content {
 	overflow: visible !important;
 	height: var(--windowbar-height) !important;
+	padding: 0px var(--workspace-inner-padding) !important;
+	gap: 5px;
 }
 
 .component__WindowBar .component__WindowBar-icon {
 	height: 18px;
 	width: 18px;
-	margin-left: 15px;
-	margin-right: 5px;
 }
 
 .window-material-type-default .component__WindowBar .component__WindowBar-icon {
@@ -406,7 +408,6 @@ html:has(.v-application.v-theme--DarkMode) .v-contextmenu-divider {
 	-webkit-app-region: no-drag;
 	display: flex;
 	align-items: center;
-	gap: 5px;
 }
 
 .component__WindowBar .component__WindowBar-buttons-btn {

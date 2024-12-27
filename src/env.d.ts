@@ -46,7 +46,5 @@ interface Window {
 
   //your custom application methods
   application: {
-    exampleMethod: () => Promise<string>;
-    exampleAlert: () => void;
   }
 }

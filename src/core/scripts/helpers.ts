@@ -5,7 +5,7 @@ import { windowMaterialType } from "../../electron/main";
 export function setCurrentThemeMode(mode: string = "system") {
 	const windows = BrowserWindow.getAllWindows();
 
-	function setDarkMode(win: BrowserWindow) {
+	function setDarkMode(win: BrowserWindow, changeThemeSource: boolean = true) {
 		if (windowMaterialType == "fluent") {
 			win.setTitleBarOverlay({
 				color: "#ffffff00",
@@ -16,10 +16,12 @@ export function setCurrentThemeMode(mode: string = "system") {
 			win.setBackgroundColor(DarkMode.colors["background"]);
 		}
 
-		nativeTheme.themeSource = "dark";
+		if (changeThemeSource) {
+			nativeTheme.themeSource = "dark";
+		}
 	}
 
-	function setLightMode(win: BrowserWindow) {
+	function setLightMode(win: BrowserWindow, changeThemeSource: boolean = false) {
 		if (windowMaterialType == "fluent") {
 			win.setTitleBarOverlay({
 				color: "#ffffff00",
@@ -30,23 +32,26 @@ export function setCurrentThemeMode(mode: string = "system") {
 			win.setBackgroundColor(LightMode.colors["background"]);
 		}
 
-		nativeTheme.themeSource = "light";
+		if (changeThemeSource) {
+			nativeTheme.themeSource = "light";
+		}
 	}
 
 	windows.forEach((win) => {
 		switch (mode) {
 			case "dark":
-				setDarkMode(win);
+				setDarkMode(win, true);
 				break;
 			case "light":
-				setLightMode(win);
+				setLightMode(win, true);
 				break;
 
 			case "system":
+				nativeTheme.themeSource = "system";
 				if (nativeTheme.shouldUseDarkColors) {
-					setDarkMode(win);
+					setDarkMode(win, false);
 				} else {
-					setLightMode(win);
+					setLightMode(win, false);
 				}
 				break;
 		}

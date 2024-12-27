@@ -33,11 +33,11 @@ let win: BrowserWindow;
 const url: string = String(process.env.VITE_DEV_SERVER_URL);
 const indexHtml = join(process.env.DIST, "index.html");
 
-export const windowMaterialType: string = "fluent"; // fluent or default
+export const windowMaterialType: string = "default"; // fluent or default
 
 async function createWindow() {
 	const winProps = {
-		title: "Electron Fluent template",
+		title: "CS 1.6 Servers",
 		icon: join(process.env.VITE_PUBLIC, "/favicon.ico"),
 		width: 1280,
 		height: 800,

@@ -1,9 +1,9 @@
 {
-	"name": "electron-fluent-boilerplate",
+	"name": "cs16_servers",
 	"icon": "./src/public/favicon.ico",
-	"product_name": "Electron Fluent Boilerplate",
+	"product_name": "CS 1.6 Servers",
 	"version": "1.0.0",
-	"description": "Electron + Vite + Vue3 + Pinia + Typescript boilerplate project, inspired by Windows Fluent UI. With built-in Vuetify UI, and other custom components.",
+	"description": "Counter Strike 1.6 servers parsers.",
 	"main": "dist/electron/main.js",
 	"author": "QuadVector",
 	"copyright": "Copyright © QuadVector Software",
@@ -27,7 +27,7 @@
 		"release": "npm run build && electron-builder"
 	},
 	"build": {
-		"appId": "electron-fluent-boilerplate",
+		"appId": "cs16_servers",
 		"asar": true,
 		"directories": {
 			"buildResources": "assets",
@@ -72,11 +72,19 @@
 	"dependencies": {
 		"@electron/remote": "^2.0.8",
 		"@simolation/vue-hotkey": "^2.0.1",
+		"ag-grid-vue3": "^33.0.3",
+		"axios": "^1.7.9",
+		"flag-icons": "^7.2.3",
+		"gamedig": "^5.1.4",
+		"node-html-parser": "^6.1.13",
+		"offline-geo-from-ip": "^1.0.1",
+		"p-queue": "^8.0.1",
 		"vue-router": "^4.3.0",
 		"vue-tinykeys": "^0.2.1"
 	},
 	"devDependencies": {
 		"@mdi/font": "5.9.55",
+		"@types/gamedig": "^5.0.3",
 		"@types/webfontloader": "^1.0.0",
 		"@vitejs/plugin-vue": "^5.0.1",
 		"@vue/compiler-sfc": "^3.4.21",

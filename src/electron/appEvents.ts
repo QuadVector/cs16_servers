@@ -1,10 +1,129 @@
 import { BrowserWindow, ipcMain } from "electron";
+import axios from 'axios';
+import { parse } from 'node-html-parser';
+import { GameDig } from 'gamedig';
+
+var geoIP = require('offline-geo-from-ip');
 
 export function initAppEvents(app: Electron.App, win: BrowserWindow) {
-	//place all custom electron app events here
-	ipcMain.handle("example-method", () => {
+	ipcMain.handle("parse-ip-list", (event, url: string): Promise<Array<string>> => {
 		return new Promise((resolve) => {
-			resolve("Hello, world!");
+			let result: Array<string> = [];
+
+			//get HTML data from url
+			axios.get(url).then((response) => {
+
+				//parse ip:port address
+				const regex = /([\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}):([\d]{1,5})/gm;
+				let ips = response.data.match(regex) || [];
+
+				//remove duplicates
+				ips = ips.filter((currentValue: string, index: number, arr: string) => (
+					arr.indexOf(currentValue) === index
+				));
+
+				resolve(ips);
+			}).catch((error) => {
+				resolve([]);
+			});
 		});
+	});
+
+	ipcMain.handle("parse-pagination-links", (event, url: string): Promise<Array<string>> => {
+		return new Promise((resolve) => {
+			let result: Array<string> = [];
+			axios.get(url).then((response) => {
+				const domain = new URL(url).host;
+
+				const paginationClasses = [
+					".pagination",
+					".pager",
+					".paging",
+					".pagenav",
+					".page-links",
+					".page-navigation",
+					".pagination-wrapper",
+					".uk-pagination",
+					".pagination-container",
+					".pagination-list",
+					".page-numbers",
+					".page-item",
+					".page-link",
+					".pages",
+					".nav-pages",
+					".nav-pagination",
+					".paginate",
+					".pager-nav",
+					".pagination-bar",
+					".pager-links",
+					".pagination-controls",
+					".comments-pagination",
+					".item_text_aligncenter"
+				];
+
+				//trying to find pagination block
+				const root = parse(response.data);
+				let urlTemplate = undefined;
+				let pagesCount = 0;
+				let isFound = false;
+				paginationClasses.forEach((className) => {
+					if (!isFound) {
+						const paginationBlock = root.querySelector(`${className}`);
+						if (paginationBlock !== null) {
+							//make url template for pagination links
+							//trying to find first link
+							urlTemplate = paginationBlock.querySelectorAll("a[href*='/']")[0]?.getAttribute("href") || undefined;
+
+							//if the first link is not found, trying to find next link, and don't check it for a correct href, because usually it's not a "previous" link, but a good pagination link
+							if (typeof urlTemplate === "undefined") {
+								urlTemplate = paginationBlock.querySelectorAll("a")[1]?.getAttribute("href") || undefined;
+							}
+
+							//replace the last number with {pageNumber}
+							urlTemplate = domain + "/" + urlTemplate?.replace(/\d+(?![^]*\d)/, "{pageNumber}");
+							urlTemplate = "https://" + urlTemplate?.replaceAll("//", "/");
+
+							//now trying to find pages count
+							const links = paginationBlock.querySelectorAll("a");
+							for (let i = 0; i < links.length; i++) {
+								let lastLink = links[i];
+								let linkCount = Math.max(parseInt(lastLink.innerText), Number(lastLink.innerText.match(/\d+(?![^]*\d)/)?.[0]));
+								if (lastLink !== undefined && linkCount > pagesCount) {
+									pagesCount = linkCount;
+								}
+							}
+
+							isFound = true;
+						}
+					}
+				});
+
+				if (urlTemplate == undefined || pagesCount == undefined) {
+					resolve([url]);
+				} else {
+					for (let i = 1; i <= pagesCount; i++) {
+						//@ts-ignore
+						result.push(urlTemplate.replace("{pageNumber}", i.toString()));
+					}
+
+					resolve(result);
+				}
+			}).catch(() => {
+				resolve([]);
+			});
+		});
+	});
+
+	ipcMain.handle("get-cs16-server-info", (event, ip: string): Promise<any> => {
+		return GameDig.query({
+			type: 'counterstrike16',
+			host: ip
+		}).catch(() => {
+			return {};
+		});
+	});
+
+	ipcMain.handle("get-ip-geolocation", (event, ip: string): Promise<any> => {
+		return geoIP.allData(ip);
 	});
 }

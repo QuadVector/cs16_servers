@@ -22,7 +22,7 @@
 :root {
 	--base-radius: 8px;
 	--windowbar-height: 48px;
-	--workspace-inner-padding: 20px;
+	--workspace-inner-padding: 10px;
 	--app-height: calc(100vh - var(--windowbar-height));
 	--font-size-main: 14px;
 	--font-size-small: 14px;
