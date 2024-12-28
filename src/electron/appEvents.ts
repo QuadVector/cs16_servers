@@ -1,7 +1,7 @@
 import { BrowserWindow, ipcMain } from "electron";
 import axios from 'axios';
 import { parse } from 'node-html-parser';
-import { GameDig } from 'gamedig';
+const { Server, MasterServer } = require('@fabricio-191/valve-server-query');
 
 var geoIP = require('offline-geo-from-ip');
 
@@ -114,16 +114,59 @@ export function initAppEvents(app: Electron.App, win: BrowserWindow) {
 		});
 	});
 
-	ipcMain.handle("get-cs16-server-info", (event, ip: string): Promise<any> => {
-		return GameDig.query({
-			type: 'counterstrike16',
-			host: ip
-		}).catch(() => {
-			return {};
-		});
+	ipcMain.handle("get-cs16-server-info", async (event, ip: string): Promise<any> => {
+		let serverAddress = ip.split(":");
+		try {
+			const server = await Server({
+				ip: serverAddress[0],
+				port: parseInt(serverAddress[1], 10) || 27015,
+				timeout: 3000,
+			});
+			const info = await server.getInfo();
+			const countryInfo = await geoIP.allData(serverAddress[0]);
+
+			return {
+				name: info.name,
+				address: info.address,
+				game: info.game,
+				players_num: info.players.online,
+				players_max: info.players.max,
+				bots_num: info.players.bots,
+				secure: info.VAC,
+				password: info.visibility != "public",
+				map: info.map,
+				folder: info.folder,
+				ping: server.lastPing,
+				country_code: countryInfo.code?.country,
+				country_name: countryInfo.country
+			};
+		} catch (error) {
+			return null;
+		}
 	});
 
 	ipcMain.handle("get-ip-geolocation", (event, ip: string): Promise<any> => {
 		return geoIP.allData(ip);
+	});
+
+	ipcMain.handle("get-cs16-master-server-ips", async (event, address: string): Promise<Array<string>> => {
+		try {
+			let serverAddress = address.split(":");
+	
+			let ip = serverAddress[0];
+			let port = parseInt(serverAddress[1]) || 27011;
+	
+			const data = await MasterServer({
+				ip: ip,
+				port: port,
+				quantity: 'all',
+				timeout: 3000,
+				region: 'OTHER'
+			});
+	
+			return data;
+		} catch (error) {
+			return [];
+		}
 	});
 }

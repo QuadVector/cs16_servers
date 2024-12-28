@@ -48,7 +48,8 @@ interface Window {
   application: {
     parseIPList: (url: string) => Promise<Array<string>>;
     parsePaginationLinks: (url: string) => Promise<Array<string>>;
-    getCS16ServerInfo(ip: string): any;
-    getIPGeolocation(ip: string): any;
+    getCS16ServerInfo: (ip: string) => any;
+    getIPGeolocation: (ip: string) => any;
+    getCS16MasterServerIPs: (ip: string) => Promise<Array<string>>;
   }
 }

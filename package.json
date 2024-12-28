@@ -71,11 +71,11 @@
 	},
 	"dependencies": {
 		"@electron/remote": "^2.0.8",
+		"@fabricio-191/valve-server-query": "^4.1.9",
 		"@simolation/vue-hotkey": "^2.0.1",
 		"ag-grid-vue3": "^33.0.3",
 		"axios": "^1.7.9",
 		"flag-icons": "^7.2.3",
-		"gamedig": "^5.1.4",
 		"node-html-parser": "^6.1.13",
 		"offline-geo-from-ip": "^1.0.1",
 		"p-queue": "^8.0.1",
@@ -84,7 +84,6 @@
 	},
 	"devDependencies": {
 		"@mdi/font": "5.9.55",
-		"@types/gamedig": "^5.0.3",
 		"@types/webfontloader": "^1.0.0",
 		"@vitejs/plugin-vue": "^5.0.1",
 		"@vue/compiler-sfc": "^3.4.21",
