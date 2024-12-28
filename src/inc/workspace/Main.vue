@@ -25,18 +25,7 @@
 				</span>
 			</div>
 			<div class="status-bar__right">
-				<span>
-					Web pages: {{ queueInfo.pending.webPages }} <span class="cursor-question" title="In queue">(<v-icon icon="mdi-human-queue" /> {{ queueInfo.size.webPages }})</span>
-				</span>
-				<span>
-					Pages IPs: {{ queueInfo.pending.ips }} <span class="cursor-question" title="In queue">(<v-icon icon="mdi-human-queue" /> {{ queueInfo.size.ips }})</span>
-				</span>
-				<span>
-					Master servers IPs: {{ queueInfo.pending.masterServers }} <span class="cursor-question" title="In queue">(<v-icon icon="mdi-human-queue" /> {{ queueInfo.size.masterServers }})</span>
-				</span>
-				<span>
-					Servers info: {{ queueInfo.pending.servers }} <span class="cursor-question" title="In queue">(<v-icon icon="mdi-human-queue" /> {{ queueInfo.size.servers }})</span>
-				</span>
+				<span class="cursor-question" title="Servers in queue"><v-icon icon="mdi-human-queue" /> {{ queueInfo.size.servers }}</span>
 				<span>
 					Servers count: {{ serversData.length }}
 				</span>
@@ -46,46 +35,12 @@
 </template>
 
 <style scoped>
-.servers-table {
-	height: calc(100% - 75px);
-	margin-bottom: 10px;
-}
-
-.servers-table:deep() .ag-root-wrapper {
-	border-radius: var(--base-radius);
-}
-
-.status-bar {
-	height: 30px;
-	width: 100%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: rgb(var(--v-theme-surface));
-	border-top: rgba(var(--v-theme-border), 1) 1px solid;
-	position: absolute;
-	bottom: 0px;
-	left: 0px;
-	padding: 0px var(--workspace-inner-padding);
-	z-index: 9;
-	font-size: 12px;
-}
-
-.status-bar span, .status-bar__left {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.status-bar__left, .status-bar__right {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-}
-
-.cursor-question {
-	cursor: help;
-}
+.servers-table{height:calc(100% - 75px);margin-bottom:10px}
+.servers-table:deep() .ag-root-wrapper{border-radius:var(--base-radius)}
+.status-bar{height:30px;width:100%;display:flex;justify-content:space-between;align-items:center;background-color:rgb(var(--v-theme-surface));border-top:rgba(var(--v-theme-border),1) 1px solid;position:absolute;bottom:0;left:0;padding:0 var(--workspace-inner-padding);z-index:9;font-size:12px}
+.status-bar span,.status-bar__left{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status-bar__left,.status-bar__right{display:flex;gap:10px;align-items:center}
+.cursor-question{cursor:help}
 </style>
 
 <script>
@@ -102,12 +57,13 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const game_type = "cstrike";
-const initConcurrency = 50;
+const initConcurrency = 30;
 var webPagesQueue, masterServersQueue, ipsQueue, serversQueue;
 
 export default {
 	data() {
 		return {
+			//queue statistics
 			queueInfo: {
 				pending: {
 					webPages: 0,
@@ -314,7 +270,7 @@ export default {
 				});
 
 				ipsQueue.on('next', () => {
-					this.queueInfo.pending,ips = ipsQueue.pending;
+					this.queueInfo.pending.ips = ipsQueue.pending;
 					this.queueInfo.size.ips = ipsQueue.size;
 				});
 
@@ -363,7 +319,6 @@ export default {
 			this.parserStatus = "Getting data from monitorings...";
 			this.parseData.web.forEach((url) => {
 				webPagesQueue.add(() => {
-					
 					return window.application.parsePaginationLinks(url).then((pagesData) => {
 						console.log(`Parsed pages from ${url}`);
 						this.parserStatus = `Parsed pages from ${url}`;
@@ -448,8 +403,6 @@ export default {
 
 						ips.forEach((ip) => {
 							serversQueue.add(() => {
-		
-								
 								return new Promise((resolve) => {
 									const exist = false;
 
